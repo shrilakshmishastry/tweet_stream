@@ -1,7 +1,8 @@
-import React,{Component} from 'react';
+import React,{Component,props} from 'react';
 import WebFont from 'webfontloader';
 import {Container,Row,Col,Jumbotron,Form,FormGroup,Input} from 'reactstrap';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import axios from 'axios';
 
 const Div = styled.div
 `
@@ -15,6 +16,29 @@ WebFont.load({
 });
 
 class Home extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={value:''};
+    this.handleInput=this.handleInput.bind(this);
+    this.handleDisplay=this.handleDisplay.bind(this);
+
+  }
+  handleInput(event){
+    this.setState({value:event.target.value});
+
+  }
+
+
+  handleDisplay(event){
+    event.preventDefault();
+    const user = {name:this.state.value};
+    console.log(this.state.value);
+    axios.post('/search',{
+      user
+    })
+    .then(response=>console.log(response.data))
+
+  }
     render(){
       return(
         <div>
@@ -28,9 +52,9 @@ class Home extends React.Component{
             </Div>
               <Row>
               <Col md={{size:8,offset:2}}>
-              <Form >
+              <Form onSubmit={this.handleDisplay}>
                 <FormGroup >
-                  <Input outline={{color:'secondary'}} type="text" placeholder="search " className="text-center pb-3 pt-3"  required="true" >
+                  <Input outline={{color:'secondary'}} type="text" placeholder="search " value={this.state.value} className="text-center pb-2 pt-2"  onChange={this.handleInput} required="true" >
                   </Input>
                 </FormGroup>
               </Form>
