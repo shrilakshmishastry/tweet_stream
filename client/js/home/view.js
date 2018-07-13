@@ -18,7 +18,8 @@ WebFont.load({
 class Home extends React.Component{
   constructor(props){
     super(props);
-    this.state={value:''};
+    this.state={value:'',
+    data:""};
     this.handleInput=this.handleInput.bind(this);
     this.handleDisplay=this.handleDisplay.bind(this);
 
@@ -31,14 +32,21 @@ class Home extends React.Component{
 
   handleDisplay(event){
     event.preventDefault();
-    const user = {name:this.state.value};
+
     console.log(this.state.value);
+  console.log(this.state.data);
+  const user = {name:this.state.value};
     axios.post('/search',{
       user
     })
-    .then(response=>console.log(response.data))
+    .then(response=>{
+    let text=response.data;
+    console.log(text);
+      this.setState({data:text});
+    })
 
   }
+
     render(){
       return(
         <div>
