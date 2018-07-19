@@ -3,6 +3,7 @@ import WebFont from 'webfontloader';
 import {Container,Row,Col,Jumbotron,Form,FormGroup,Input} from 'reactstrap';
 import styled from 'styled-components';
 import axios from 'axios';
+import push from 'react-router-redux';
 
 const Div = styled.div
 `
@@ -19,7 +20,7 @@ class Home extends React.Component{
   constructor(props){
     super(props);
     this.state={value:'',
-    data:""};
+    data:''};
     this.handleInput=this.handleInput.bind(this);
     this.handleDisplay=this.handleDisplay.bind(this);
 
@@ -31,19 +32,33 @@ class Home extends React.Component{
 
 
   handleDisplay(event){
-    event.preventDefault();
+      event.preventDefault();
+      console.log(this.state.value);
+      const name=this.state.value
+      axios.post('/search',{
+        "name":name
+            })
+      .then(response=>{
+      let text=response.data;
+      console.log(typeof text)
+      let a = [];
+      for(let x in text){
+       a.push(x);
 
-    console.log(this.state.value);
-  console.log(this.state.data);
-  const user = {name:this.state.value};
-    axios.post('/search',{
-      user
-    })
-    .then(response=>{
-    let text=response.data;
-    console.log(text);
+        console.log(x)
+
+      }
+       console.log(a);
       this.setState({data:text});
+          console.log(this.state.data);
+      this.props.history.push({
+          pathname:'/search',
+          state:{
+              data:a
+          }
+      });
     })
+    console.log(this.state.data);
 
   }
 

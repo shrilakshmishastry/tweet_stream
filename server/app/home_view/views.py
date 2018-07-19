@@ -1,4 +1,4 @@
-from flask import request
+from flask import request,render_template
 from app import app
 from .import home
 import tweepy
@@ -15,25 +15,11 @@ app.config.update({"access_token_secret":access_token_secret})
 auth=tweepy.OAuthHandler(app.config['consumer_key'],app.config['consumer_secret'])
 auth.set_access_token(app.config['access_token'],app.config['access_token_secret'])
 api = tweepy.API(auth)
-user=api.get_user('@ShrihariShastry')
-print("Name:",user.name)
-print("Location:",user.location)
-print("Following:",user.friends_count)
-print("Followers:",user.id)
-id=user.screen_name
-for friend in user.friends():
-   print(friend.screen_name)
-data = api.statuses_lookup(id)
-name ={}
-for i in api.user_timeline(id):
+user=api.get_user('@shrilakshmihg')
+print(user.name)
 
-    name.update({'tweet':i.text})
-    name.update({'created_at':i.created_at})
-    print(i.text)
-    print(i.created_at)
+data={}
 
-print("hello world")
-print(name)
 
 
 
@@ -43,5 +29,14 @@ def search():
     if request.method=='POST':
         print(request.is_json)
         print(request.get_json())
-        return
-    return('hello world')
+        user=request.get_json()
+        n=user.get('name')
+        print(n)
+        for i in api.user_timeline(n):
+            tweet=i.text
+
+            data[tweet]=i.id_str
+        print(data)
+        return json.dumps(data)
+
+    return ("hyello world")
