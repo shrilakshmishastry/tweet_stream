@@ -20,7 +20,9 @@ class Home extends React.Component{
   constructor(props){
     super(props);
     this.state={value:'',
-    data:''};
+    data:'',
+    urls:''
+  };
     this.handleInput=this.handleInput.bind(this);
     this.handleDisplay=this.handleDisplay.bind(this);
 
@@ -29,37 +31,23 @@ class Home extends React.Component{
     this.setState({value:event.target.value});
 
   }
-
-
   handleDisplay(event){
       event.preventDefault();
-      console.log(this.state.value);
-      const name=this.state.value
+      const name=this.state.value;
+      var text;
       axios.post('/search',{
-        "name":name
-            })
+        name:name
+      })
       .then(response=>{
-      let text=response.data;
-      console.log(typeof text)
-      let a = [];
-      for(let x in text){
-       a.push(x);
+        text=response.data;
+        this.setState({
+          data:text
+        });
+          
+      })
 
-        console.log(x)
 
-      }
-       console.log(a);
-      this.setState({data:text});
-          console.log(this.state.data);
-      this.props.history.push({
-          pathname:'/search',
-          state:{
-              data:a
-          }
-      });
-    })
-    console.log(this.state.data);
-
+      console.log(this.state.urls);
   }
 
     render(){
@@ -71,7 +59,7 @@ class Home extends React.Component{
             </Row>
             <Row className="  mt-5" >
             </Row>
-            <Div className="  mt-5  h1  text-center text-success" >Tweet_stream
+            <Div className="  mt-5  h1  text-center text-success" >TWEETSTREAM
             </Div>
               <Row>
               <Col md={{size:8,offset:2}}>
