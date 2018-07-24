@@ -1,41 +1,54 @@
 import React,{Component,props} from 'react';
 import {Link} from 'react-router-dom';
-import {Card,CardBody,Container,CardLink} from 'reactstrap';
+import {Card,CardBody,Container,CardLink,CardText} from 'reactstrap';
 import axios from 'axios';
 class Search extends React.Component{
 
   constructor(props){
     super(props);
     this.state={
-        urls:this.props.location.state.url,
-      data:this.props.location.state.data
+
+      data:this.props.location.state.tweet,
+      name:this.props.location.state.name,
+      urls:this.props.location.state.urls
+
     };
     this.display=this.display.bind(this);
 
     }
   display(){
-    let numbers=this.state.data;
-        console.log(numbers);
+      console.log( this.state.data.data);
+      let y=this.state.data.data;
+
+      let number=[]
+      let created_at=[]
+      for(let x in y){
+        number.push(x)
+        created_at.push(this.state.data.data[x])
+      }
+
         return(
-      <li>
-        {
-          numbers.map((number)=>
-            <div key={number.toString()}>
-            <Container className='bg-primary'>
-            <Card >
+          <li>
+       {
+         number.map((number)=>
+           <div key={number.toString()}>
+           <Container className='bg-primary'>
+           <Card >
+           <img src={this.state.urls} height='100px' width='100px'/>
+             {this.state.name}
+           <CardBody>
+           <CardText>
+            created_at:{this.state.data.data[number]}
+            </CardText>
+             <CardLink href='#'>{number}</CardLink>
 
-            <img src='https://images.pexels.com/photos/87840/daisy-pollen-flower-nature-87840.jpeg?cs=srgb&dl=plant-flower-macro-87840.jpg&fm=jpg' height='100px' width='100px'/>
-            <CardBody>
-
-              {number}
-
-            </CardBody>
-            </Card>
-            </Container>
-            </div>
-          )
-        }
-      </li>
+           </CardBody>
+           </Card>
+           </Container>
+           </div>
+         )
+       }
+     </li>
     );
   }
 

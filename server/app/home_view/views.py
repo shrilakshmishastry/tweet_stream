@@ -15,13 +15,7 @@ app.config.update({"access_token_secret":access_token_secret})
 auth=tweepy.OAuthHandler(app.config['consumer_key'],app.config['consumer_secret'])
 auth.set_access_token(app.config['access_token'],app.config['access_token_secret'])
 api = tweepy.API(auth)
-
-
-
 data={}
-
-
-
 
 @home.route('/search',methods=['GET','POST'])
 def search():
@@ -30,15 +24,14 @@ def search():
         print(request.is_json)
         print(request.get_json())
         user=request.get_json()
-        n=user.get('name')
+        n=user.get('user_name')
+        print(type(n))
         user=api.get_user(n)
-        for i in api.home_timeline():
+        name=user.screen_name
+        print(name)
+        url=user.profile_image_url
+        for i in api.user_timeline(name):
             tweet=i.text
             data[tweet]=str(i.created_at)
-        return json.dumps(data)
-    if request.method=='GET'    :
-        print(request.is_json)
-        print(user.scree_name)
-        return('helllo world')
-
+        return json.dumps({'data':data,'name':name,'img':url})
     return ("hyello world")

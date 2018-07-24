@@ -21,7 +21,8 @@ class Home extends React.Component{
     super(props);
     this.state={value:'',
     data:'',
-    urls:''
+    urls:'',
+    name:''
   };
     this.handleInput=this.handleInput.bind(this);
     this.handleDisplay=this.handleDisplay.bind(this);
@@ -31,24 +32,38 @@ class Home extends React.Component{
     this.setState({value:event.target.value});
 
   }
+
+
   handleDisplay(event){
       event.preventDefault();
-      const name=this.state.value;
+      let user_name=this.state.value;
+      console.log(this.state.value);
       var text;
       axios.post('/search',{
-        name:name
+      user_name
       })
-      .then(response=>{
+      .then( response=>{
         text=response.data;
+        let  n=response.data.name;
+        let urls=response.data.img;
         this.setState({
-          data:text
+          data:text,
+          name:n,
+          urls:urls
         });
-          
+        console.log('hello world');
+        console.log(text);
+        this.props.history.push({
+          pathname:'/search',
+          state:{
+            tweet:text,
+            name:n,
+            urls:urls
+          }
+        })
       })
 
-
-      console.log(this.state.urls);
-  }
+        }
 
     render(){
       return(
