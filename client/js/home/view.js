@@ -22,7 +22,9 @@ class Home extends React.Component{
     this.state={value:'',
     data:'',
     urls:'',
-    name:''
+    name:'',
+    favorite_count:'',
+    retweet_count:''
   };
     this.handleInput=this.handleInput.bind(this);
     this.handleDisplay=this.handleDisplay.bind(this);
@@ -36,31 +38,14 @@ class Home extends React.Component{
 
   handleDisplay(event){
       event.preventDefault();
-      let user_name=this.state.value;
+      let keyword=this.state.value;
       console.log(this.state.value);
       var text;
       axios.post('/search',{
-      user_name
+      keyword
       })
       .then( response=>{
-        text=response.data;
-        let  n=response.data.name;
-        let urls=response.data.img;
-        this.setState({
-          data:text,
-          name:n,
-          urls:urls
-        });
-        console.log('hello world');
-        console.log(text);
-        this.props.history.push({
-          pathname:'/search',
-          state:{
-            tweet:text,
-            name:n,
-            urls:urls
-          }
-        })
+        console.log(response.data);
       })
 
         }
