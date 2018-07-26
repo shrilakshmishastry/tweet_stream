@@ -4,11 +4,16 @@ import {Container,Row,Col,Jumbotron,Form,FormGroup,Input} from 'reactstrap';
 import styled from 'styled-components';
 import axios from 'axios';
 import push from 'react-router-redux';
+require('/home/shri/tweeter_project/client/images/icon.png')
 
 const Div = styled.div
 `
   font-family: 'Fredoka One', cursive;
+  background-image:url('/home/shri/tweeter_project/client/dist/icon.png')
+
 `;
+
+
 
 WebFont.load({
   google: {
@@ -46,14 +51,28 @@ class Home extends React.Component{
       })
       .then( response=>{
         console.log(response.data);
+        var f=response.data.favorite_count;
+        var r=response.data.retweets;
+        var t=response.data.t;
+        var s=response.data.source_url;
+        var n=response.data.screen_name;
+        this.setState({
+          data:t,
+          favorite_count:f,
+          retweet_count:r,
+          name:n,
+          urls:s
+        });
+        console.log(this.state.data);
       })
 
         }
 
+
     render(){
       return(
-        <div>
-          <Jumbotron className="bg-white mt-md-5">
+        <Div >
+          <Jumbotron  className="bg-white mt-md-5">
             <Container className="">
             <Row className="  mt-5" >
             </Row>
@@ -73,7 +92,7 @@ class Home extends React.Component{
               </Row>
             </Container>
           </Jumbotron>
-        </div>
+        </Div>
       );
     }
 }

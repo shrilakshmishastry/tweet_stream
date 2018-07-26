@@ -17,6 +17,9 @@ auth.set_access_token(app.config['access_token'],app.config['access_token_secret
 api = tweepy.API(auth)
 tweeted={}
 retweets=[]
+favorite_count=[]
+source_url=[]
+screen_name=[]
 
 @home.route('/search',methods=['GET','POST'])
 def search():
@@ -30,11 +33,12 @@ def search():
         results = api.search(q=n, lang="en",count=10)
         for tweet in results:
             print tweet.user.screen_name,"Tweeted:",tweet.text
-            screen_name=tweet.user.screen_name
             tweeted[tweet.text]=str(tweet.created_at)
             retweets.append(tweet.retweet_count)
-            print(tweet.source_url)
+            favorite_count.append(tweet.favorite_count)
+            screen_name.append(tweet.user.screen_name)
+            source_url.append(tweet.source_url)
         print(dir(tweet))
 
-        return json.dumps({'t':tweeted,'retweets':retweets})
+        return json.dumps({'t':tweeted,'retweets':retweets,'favorite_count':favorite_count,'source_url':source_url,'screen_name':screen_name})
     return('hello world')
