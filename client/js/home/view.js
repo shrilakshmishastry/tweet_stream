@@ -4,13 +4,14 @@ import {Container,Row,Col,Jumbotron,Form,FormGroup,Input} from 'reactstrap';
 import styled from 'styled-components';
 import axios from 'axios';
 import push from 'react-router-redux';
-require('/home/shri/tweeter_project/client/images/icon.png')
+require('/home/shri/tweeter_project/client/images/icon.png');
+
 
 const Div = styled.div
 `
   font-family: 'Fredoka One', cursive;
-  background-image:url('/home/shri/tweeter_project/client/dist/icon.png')
-
+  background-color:coral;
+  height:1000px;
 `;
 
 
@@ -72,14 +73,14 @@ class Home extends React.Component{
     render(){
       return(
         <Div >
-          <Jumbotron  className="bg-white mt-md-5">
+          <Jumbotron fluid className=" mt-md-5">
             <Container className="">
             <Row className="  mt-5" >
             </Row>
             <Row className="  mt-5" >
             </Row>
-            <Div className="  mt-5  h1  text-center text-success" >TWEETSTREAM
-            </Div>
+            <div className="  mt-5  h1  text-center text-success" >TWEETSTREAM
+            </div>
               <Row>
               <Col md={{size:8,offset:2}}>
               <Form onSubmit={this.handleDisplay}>
