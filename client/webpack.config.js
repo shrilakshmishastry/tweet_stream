@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 module.exports={
-    entry:'/home/shri/tweeter_project/client/index.js',
+    entry:'/home/shri/tweet_stream/client/index.js',
     output:{
        path: __dirname + '/dist',
        filename:'bundle.js'

@@ -32,7 +32,7 @@ def search():
         print(n)
         results = api.search(q=n, lang="en",count=10)
         for tweet in results:
-            print tweet.user.screen_name,"Tweeted:",tweet.text
+            print (tweet.user.screen_name,"Tweeted:",tweet.text)
             tweeted[tweet.text]=str(tweet.created_at)
             retweets.append(tweet.retweet_count)
             favorite_count.append(tweet.favorite_count)
