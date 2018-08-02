@@ -1,55 +1,53 @@
 import React,{Component,props} from 'react';
 import {Link} from 'react-router-dom';
-import {Card,CardBody,Container,CardLink,CardText} from 'reactstrap';
+import {Card,CardBody,Container,CardLink,CardText,CardImg,Row} from 'reactstrap';
 import axios from 'axios';
 class Search extends React.Component{
 
   constructor(props){
     super(props);
     this.state={
-
-      data:this.props.location.state.tweet,
+      tweet:this.props.location.state.tweet,
+      retweet_count:this.props.location.state.retweet_count,
+      favorite_count:this.props.location.favorite_count,
       name:this.props.location.state.name,
-      urls:this.props.location.state.urls
+      source_urls:this.props.location.state.source_urls,
+      img_url:this.props.location.state.img_url
 
     };
     this.display=this.display.bind(this);
 
     }
   display(){
-      console.log( this.state.data.data);
-      let y=this.state.data.data;
-
+    console.log('hello world');
+      console.log(typeof this.state.tweet);
+      let y=this.state.tweet;
       let number=[]
-      let created_at=[]
-      for(let x in y){
-        number.push(x)
-        created_at.push(this.state.data.data[x])
+      for (let x in y){
+        console.log(x);
+        number.push(x);
       }
+      console.log(number);
+      console.log(this.state.tweet);
+      return(
+          number.map((number,i)=>
+          <ul key={number.toString()}>
+          <li >
+          <Card>
+            <CardBody>
+          <Row className='d-inline-flex flex-row'>
+          <CardImg style={{height:'50px',width:'50px'}} src={this.state.img_url[i]} alt='helo world'/>
+            {this.state.name[i]}
+            </Row>
 
-        return(
-          <li>
-       {
-         number.map((number)=>
-           <div key={number.toString()}>
-           <Container className='bg-primary'>
-           <Card >
-           <img src={this.state.urls} height='100px' width='100px'/>
-             {this.state.name}
-           <CardBody>
-           <CardText>
-            created_at:{this.state.data.data[number]}
-            </CardText>
-             <CardLink href='#'>{number}</CardLink>
+              {number}
 
-           </CardBody>
-           </Card>
-           </Container>
-           </div>
-         )
-       }
-     </li>
-    );
+            </CardBody>
+          </Card>
+          </li>
+          </ul>
+        )
+      );
   }
 
   render(){

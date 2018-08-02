@@ -20,6 +20,7 @@ retweets=[]
 favorite_count=[]
 source_url=[]
 screen_name=[]
+img_url=[]
 
 @home.route('/search',methods=['GET','POST'])
 def search():
@@ -30,7 +31,7 @@ def search():
         user=request.get_json()
         n=user.get('keyword')
         print(n)
-        results = api.search(q=n, lang="en",count=10)
+        results = api.search(q=n, lang="en",count=50)
         for tweet in results:
             print (tweet.user.screen_name,"Tweeted:",tweet.text)
             tweeted[tweet.text]=str(tweet.created_at)
@@ -38,7 +39,8 @@ def search():
             favorite_count.append(tweet.favorite_count)
             screen_name.append(tweet.user.screen_name)
             source_url.append(tweet.source_url)
+            img_url.append(tweet.user.profile_image_url_https)
         print(dir(tweet))
 
-        return json.dumps({'t':tweeted,'retweets':retweets,'favorite_count':favorite_count,'source_url':source_url,'screen_name':screen_name})
+        return json.dumps({'t':tweeted,'retweets':retweets,'favorite_count':favorite_count,'source_url':source_url,'screen_name':screen_name,'img_url':img_url})
     return('hello world')

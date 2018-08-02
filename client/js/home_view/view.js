@@ -4,13 +4,13 @@ import {Container,Row,Col,Jumbotron,Form,FormGroup,Input} from 'reactstrap';
 import styled from 'styled-components';
 import axios from 'axios';
 import push from 'react-router-redux';
-require('/home/shri/tweet_stream/client/images/maxresdefault.jpg');
+require('/home/shri/tweet_stream/client/images/background.jpg')
 
 
 const Div = styled.div
 `
   font-family: 'Fredoka One', cursive;,
-  height:700px;
+
 `;
 
 
@@ -26,10 +26,11 @@ class Home extends React.Component{
     super(props);
     this.state={value:'',
     data:'',
-    urls:'',
+    source_urls:'',
     name:'',
     favorite_count:'',
-    retweet_count:''
+    retweet_count:'',
+    img_url:''
   };
     this.handleInput=this.handleInput.bind(this);
     this.handleDisplay=this.handleDisplay.bind(this);
@@ -56,14 +57,28 @@ class Home extends React.Component{
         var t=response.data.t;
         var s=response.data.source_url;
         var n=response.data.screen_name;
+        var img_url = response.data.img_url;
         this.setState({
           data:t,
           favorite_count:f,
           retweet_count:r,
           name:n,
-          urls:s
+          source_urls:s,
+          img_url:img_url
         });
-        console.log(this.state.data);
+        console.log('hello ');
+        console.log(this.state.source_url);
+        this.props.history.push({
+          pathname:'/search',
+          state:{
+            tweet:this.state.data,
+            retweet_count:this.state.retweet_count,
+            favorite_count:this.state.favorite_count,
+            name:this.state.name,
+            source_urls:this.state.source_urls,
+            img_url:this.state.img_url
+          }
+        })
       })
 
         }
@@ -72,7 +87,7 @@ class Home extends React.Component{
     render(){
       return(
         <Div>
-            <Jumbotron style={{backgroundImage:'url('+'/home/shri/tweet_stream/client/dist/maxresdefault.jpg'+')',height:'700px'}}>
+            <Jumbotron style={{backgroundImage:'url('+'/home/shri/tweet_stream/client/dist/maxresdefault.jpg'+')',backgroundRepeat:'no-repeat',backgroundSize:'cover',height:'528px'}}>
               <Container>
               <Row className="mt-5" >
             </Row>
@@ -84,7 +99,7 @@ class Home extends React.Component{
               <Col md={{size:8,offset:2}}>
               <Form onSubmit={this.handleDisplay}>
                 <FormGroup >
-                  <Input outline={{color:'secondary'}} type="text" placeholder="search " value={this.state.value} className="text-center pb-2 pt-2"  onChange={this.handleInput} required="true" >
+                  <Input outline={{color:'secondary'}} type="text" placeholder="search anything " value={this.state.value} className="text-center pb-2 pt-2"  onChange={this.handleInput} required="true" >
                   </Input>
                 </FormGroup>
               </Form>
