@@ -1,4 +1,5 @@
 import React,{Component,props} from 'react';
+import ReactDOM from 'react-dom';
 import WebFont from 'webfontloader';
 import {Container,Row,Col,Jumbotron,Form,FormGroup,Input} from 'reactstrap';
 import styled from 'styled-components';
@@ -34,6 +35,7 @@ class Home extends React.Component{
   };
     this.handleInput=this.handleInput.bind(this);
     this.handleDisplay=this.handleDisplay.bind(this);
+    this.baseState=this.state;
 
   }
   handleInput(event){
@@ -66,8 +68,7 @@ class Home extends React.Component{
           source_urls:s,
           img_url:img_url
         });
-        console.log('hello ');
-        console.log(this.state.source_url);
+
         this.props.history.push({
           pathname:'/search',
           state:{
@@ -79,9 +80,21 @@ class Home extends React.Component{
             img_url:this.state.img_url
           }
         })
-      })
+
+      });
 
         }
+        componentWillUnmount(){
+        clearInterval(
+           this.state.data,
+           this.state.name,
+         this.state.favorite_count,
+           this.state.retweet_count,
+         this.state.img_url
+        );
+
+      }
+
 
 
     render(){
@@ -99,7 +112,7 @@ class Home extends React.Component{
               <Col md={{size:8,offset:2}}>
               <Form onSubmit={this.handleDisplay}>
                 <FormGroup >
-                  <Input outline={{color:'secondary'}} type="text" placeholder="search anything " value={this.state.value} className="text-center pb-2 pt-2"  onChange={this.handleInput} required="true" >
+                  <Input ref='container' outline={{color:'secondary'}} type="text" placeholder="search anything " value={this.state.value} className="text-center pb-2 pt-2"  onChange={this.handleInput} required="true" >
                   </Input>
                 </FormGroup>
               </Form>

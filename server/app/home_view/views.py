@@ -15,17 +15,17 @@ app.config.update({"access_token_secret":access_token_secret})
 auth=tweepy.OAuthHandler(app.config['consumer_key'],app.config['consumer_secret'])
 auth.set_access_token(app.config['access_token'],app.config['access_token_secret'])
 api = tweepy.API(auth)
-tweeted={}
-retweets=[]
-favorite_count=[]
-source_url=[]
-screen_name=[]
-img_url=[]
 
 @home.route('/search',methods=['GET','POST'])
 def search():
 
     if request.method=='POST':
+        tweeted={}
+        retweets=[]
+        favorite_count=[]
+        source_url=[]
+        screen_name=[]
+        img_url=[]
         print(request.is_json)
         print(request.get_json())
         user=request.get_json()
@@ -40,7 +40,5 @@ def search():
             screen_name.append(tweet.user.screen_name)
             source_url.append(tweet.source_url)
             img_url.append(tweet.user.profile_image_url_https)
-        print(dir(tweet))
-
         return json.dumps({'t':tweeted,'retweets':retweets,'favorite_count':favorite_count,'source_url':source_url,'screen_name':screen_name,'img_url':img_url})
     return('hello world')
